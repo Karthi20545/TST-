@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TST தேங்காய் வணிகம் 🌴</title>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --secondary: #2c3e50;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --light-bg: rgba(255, 255, 255, 0.9);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('https://t3.ftcdn.net/jpg/06/14/09/98/360_F_614099888_lriOtdcbZbUJPyM5buXBg7brurv6egGu.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 95%;
+            margin: 20px auto;
+            padding: 25px;
+            background: var(--light-bg);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1, h2 {
+            color: var(--secondary);
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h1:after, h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), #2ecc71);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Tab system */
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            padding: 10px 15px;
+            background: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            font-weight: 600;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Image capture */
+        .image-capture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .image-btn {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .image-btn i {
+            margin-right: 5px;
+        }
+        
+        .hidden-input {
+            display: none;
+        }
+        
+        /* Signature */
+        .signature-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .signature-pad {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            margin: 0 auto;
+        }
+        
+        .signature-clear {
+            margin-top: 10px;
+        }
+        
+        /* Receipt styling */
+        .receipt {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .receipt-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .receipt-images {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .receipt-image {
+            width: 100px;
+            height: 80px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+        }
+        
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .receipt-table th {
+            background: #f5f5f5;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .receipt-table td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .total-amount {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        /* Records table */
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .records-table th {
+            background: var(--secondary);
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .records-table td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .records-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .positive { color: var(--primary); }
+        .negative { color: var(--danger); }
+        
+        @media print {
+            .no-print, .tab-buttons, button {
+                display: none !important;
+            }
+            .receipt {
+                display: block !important;
+                box-shadow: none;
+                border: none;
+            }
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            .tab-button {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            .receipt-images {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TST COCONUT BUSINESS🌴</h1>
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="billing">பில் உருவாக்கு</button>
+            <button class="tab-button" data-tab="records">பதிவுகள்</button>
+            <button class="tab-button" data-tab="settings">அமைப்புகள்</button>
+        </div>
+        
+        <!-- Billing Tab -->
+        <div id="billing" class="tab-content active">
+            <form id="billingForm">
+                <!-- Customer Image -->
+                <div class="image-capture">
+                    <img id="customerImage" src="https://via.placeholder.com/120" alt="Customer Photo" class="image-preview">
+                    <label for="imageUpload" class="image-btn">
+                        <i class="fas fa-camera"></i> வாடிக்கையாளர் புகைப்படம்
+                    </label>
+                    <input type="file" id="imageUpload" accept="image/*" capture="environment" class="hidden-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerName">பெயர்:</label>
+                    <input type="text" id="customerName" required placeholder="வாடிக்கையாளர் பெயர்">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerVillage">ஊர்:</label>
+                    <input type="text" id="customerVillage" required placeholder="ஊர்">
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionDate">தேதி:</label>
+                    <input type="date" id="transactionDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone">மொபைல் எண்:</label>
+                    <input type="tel" id="customerPhone" placeholder="கஸ்டமர் மொபைல் எண்">
+                </div>
+                
+                <div class="form-group">
+                    <label for="totalCoconuts">மொத்த தேங்காய்கள்:</label>
+                    <input type="number" id="totalCoconuts" min="0" value="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deduction">லாபக்காய்:</label>
+                    <input type="number" id="deduction" min="0" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="netCoconuts">நிகர தேங்காய்கள்:</label>
+                    <input type="number" id="netCoconuts" min="0" value="0" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="coconutPrice">தேங்காய் விலை (ஒன்றுக்கு):</label>
+                    <input type="number" id="coconutPrice" min="0" value="20" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="peeledCount">வெட்டிய தேங்காய்கள்:</label>
+                    <input type="number" id="peeledCount" min="0" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="peelingRate">வெட்டிய தேங்காய் விலை:</label>
+                    <input type="number" id="peelingRate" min="0" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="advanceAmount">முன்பணம்:</label>
+                    <input type="number" id="advanceAmount" min="0" value="0">
+                </div>
+                
+                <!-- Signature Pad -->
+                <div class="signature-container">
+                    <label>உரிமையாளர் கையொப்பம்:</label>
+                    <canvas id="signaturePad" class="signature-pad" width="300" height="100"></canvas>
+                    <button type="button" id="clearSignature" class="btn btn-danger signature-clear">கையொப்பத்தை அழி</button>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="generateBill">பில் உருவாக்கு</button>
+                <button type="button" class="btn btn-info no-print" id="printBill" style="display:none;">பிரிண்ட் செய்க</button>
+                <button type="reset" class="btn btn-secondary">துடைக்கவும்</button>
+            </form>
+            
+            <!-- Receipt Section -->
+            <div id="receipt" class="receipt">
+                <div class="receipt-header">
+                    <h2>TST COCONUT BUSINESS🌴</h2>
+                    <p id="receiptDate"></p>
+                </div>
+                
+                <div class="receipt-details">
+                    <div>
+                        <p><strong>பெயர்:</strong> <span id="receiptName"></span></p>
+                        <p><strong>ஊர்:</strong> <span id="receiptVillage"></span></p>
+                        <p><strong>மொபைல்:</strong> <span id="receiptPhone"></span></p>
+                    </div>
+                    <img id="receiptCustomerImage" src="" alt="Customer Photo" class="receipt-image" style="display: none;">
+                </div>
+                
+                <table class="receipt-table">
+                    <thead>
+                        <tr>
+                            <th>விவரம்</th>
+                            <th>அளவு</th>
+                            <th>விலை</th>
+                            <th>மொத்தம்</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receiptItems">
+                    </tbody>
+                </table>
+                
+                <div class="total-amount">
+                    <p>மொத்த தொகை: ₹<span id="receiptTotal"></span></p>
+                    <p>முன்பணம்: ₹<span id="receiptAdvance"></span></p>
+                    <p>நிகர தொகை: ₹<span id="receiptNetAmount"></span></p>
+                </div>
+                
+                <div class="receipt-images">
+                    <div>
+                        <p><strong>வாடிக்கையாளர் கையொப்பம்:</strong></p>
+                        <img id="receiptCustomerSignature" src="" alt="Customer Signature" class="receipt-image" style="display: none;">
+                    </div>
+                    <div>
+                        <p><strong>உரிமையாளர் கையொப்பம்:</strong></p>
+                        <img id="receiptOwnerSignature" src="" alt="Owner Signature" class="receipt-image">
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <h3>நன்றி! மீண்டும் வருக!</h3>
+                    <p>தொடர்புக்கு: 8220756456</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Records Tab -->
+        <div id="records" class="tab-content">
+            <h2>பதிவுகள்</h2>
+            
+            <div class="form-group">
+                <input type="text" id="searchInput" placeholder="தேடு (பெயர்/ஊர்)" class="no-print">
+                <button class="btn btn-primary no-print" id="searchBtn">தேடு</button>
+                <button class="btn btn-danger no-print" id="clearSearch">துடை</button>
+                <button class="btn btn-info no-print" id="exportBtn">ஏற்றுமதி</button>
+            </div>
+            
+            <table class="records-table">
+                <thead>
+                    <tr>
+                        <th>தேதி</th>
+                        <th>பெயர்</th>
+                        <th>ஊர்</th>
+                        <th>தேங்காய்கள்</th>
+                        <th>தொகை</th>
+                        <th class="no-print">செயல்கள்</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsList">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <h2>அமைப்புகள்</h2>
+            
+            <div class="form-group">
+                <label for="defaultCoconutPrice">இயல்புநிலை தேங்காய் விலை:</label>
+                <input type="number" id="defaultCoconutPrice" min="0" value="20">
+            </div>
+            
+            <div class="form-group">
+                <label for="defaultPeelingRate">இயல்புநிலை வெட்டிய தேங்காய் விலை:</label>
+                <input type="number" id="defaultPeelingRate" min="0" value="1">
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="autoPrint" checked> தானாக பிரிண்ட் செய்க
+                </label>
+            </div>
+            
+            <button class="btn btn-primary" id="saveSettings">சேமிக்கவும்</button>
+        </div>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Signature Pad library -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    
+    <script>
+        // Coconut Business App
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            const app = {
+                records: JSON.parse(localStorage.getItem('coconutRecords')) || [],
+                currentDate: new Date().toISOString().split('T')[0],
+                settings: JSON.parse(localStorage.getItem('coconutSettings')) || {
+                    defaultCoconutPrice: 20,
+                    defaultPeelingRate: 1,
+                    autoPrint: true
+                },
+                signaturePad: null
+            };
+            
+            // Initialize signature pad
+            const canvas = document.getElementById('signaturePad');
+            app.signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+                penColor: 'rgb(0, 0, 0)'
+            });
+            
+            // Set current date
+            document.getElementById('transactionDate').value = app.currentDate;
+            
+            // Load settings
+            loadSettings();
+            
+            // Auto calculate net coconuts
+            document.getElementById('totalCoconuts').addEventListener('input', calculateNetCoconuts);
+            document.getElementById('deduction').addEventListener('input', calculateNetCoconuts);
+            
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    document.querySelectorAll('.tab-content').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    // Show selected tab
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Image upload
+            document.getElementById('imageUpload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('customerImage').src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Clear signature
+            document.getElementById('clearSignature').addEventListener('click', function() {
+                app.signaturePad.clear();
+            });
+            
+            // Generate bill
+            document.getElementById('generateBill').addEventListener('click', generateBill);
+            
+            // Print bill
+            document.getElementById('printBill').addEventListener('click', printBill);
+            
+            // Search records
+            document.getElementById('searchBtn').addEventListener('click', searchRecords);
+            
+            // Clear search
+            document.getElementById('clearSearch').addEventListener('click', clearSearch);
+            
+            // Export records
+            document.getElementById('exportBtn').addEventListener('click', exportRecords);
+            
+            // Save settings
+            document.getElementById('saveSettings').addEventListener('click', saveSettings);
+            
+            // Load records
+            displayRecords();
+            
+            // Helper functions
+            function loadSettings() {
+                document.getElementById('defaultCoconutPrice').value = app.settings.defaultCoconutPrice;
+                document.getElementById('defaultPeelingRate').value = app.settings.defaultPeelingRate;
+                document.getElementById('autoPrint').checked = app.settings.autoPrint;
+                
+                // Set default prices in billing form
+                document.getElementById('coconutPrice').value = app.settings.defaultCoconutPrice;
+                document.getElementById('peelingRate').value = app.settings.defaultPeelingRate;
+            }
+            
+            function calculateNetCoconuts() {
+                const total = parseFloat(document.getElementById('totalCoconuts').value) || 0;
+                const deduction = parseFloat(document.getElementById('deduction').value) || 0;
+                const net = total - deduction;
+                document.getElementById('netCoconuts').value = net > 0 ? net : 0;
+            }
+            
+            function generateBill() {
+                // Get form values
+                const formData = {
+                    name: document.getElementById('customerName').value.trim(),
+                    village: document.getElementById('customerVillage').value.trim(),
+                    date: document.getElementById('transactionDate').value,
+                    phone: document.getElementById('customerPhone').value.trim(),
+                    totalCoconuts: parseFloat(document.getElementById('totalCoconuts').value) || 0,
+                    deduction: parseFloat(document.getElementById('deduction').value) || 0,
+                    netCoconuts: parseFloat(document.getElementById('netCoconuts').value) || 0,
+                    coconutPrice: parseFloat(document.getElementById('coconutPrice').value) || 0,
+                    peeledCount: parseFloat(document.getElementById('peeledCount').value) || 0,
+                    peelingRate: parseFloat(document.getElementById('peelingRate').value) || 0,
+                    advance: parseFloat(document.getElementById('advanceAmount').value) || 0,
+                    customerImage: document.getElementById('customerImage').src,
+                    ownerSignature: app.signaturePad.isEmpty() ? null : app.signaturePad.toDataURL()
+                };
+                
+                // Validate required fields
+                if (!formData.name || !formData.village || !formData.date) {
+                    alert('பெயர், ஊர் மற்றும் தேதியை நிரப்பவும்');
+                    return;
+                }
+                
+                // Calculate amounts
+                const coconutAmount = formData.netCoconuts * formData.coconutPrice;
+                const peelingAmount = formData.peeledCount * formData.peelingRate;
+                const totalAmount = coconutAmount + peelingAmount;
+                const netAmount = totalAmount - formData.advance;
+                
+                // Format date
+                const formattedDate = new Date(formData.date).toLocaleDateString('ta-IN');
+                
+                // Display receipt
+                document.getElementById('receiptName').textContent = formData.name;
+                document.getElementById('receiptVillage').textContent = formData.village;
+                document.getElementById('receiptPhone').textContent = formData.phone;
+                document.getElementById('receiptDate').textContent = formattedDate;
+                
+                // Display customer image if available
+                const receiptCustomerImage = document.getElementById('receiptCustomerImage');
+                if (formData.customerImage && !formData.customerImage.includes('placeholder')) {
+                    receiptCustomerImage.src = formData.customerImage;
+                    receiptCustomerImage.style.display = 'block';
+                } else {
+                    receiptCustomerImage.style.display = 'none';
+                }
+                
+                // Display owner signature
+                const receiptOwnerSignature = document.getElementById('receiptOwnerSignature');
+                if (formData.ownerSignature) {
+                    receiptOwnerSignature.src = formData.ownerSignature;
+                }
+                
+                // Build receipt items
+                const receiptItems = document.getElementById('receiptItems');
+                receiptItems.innerHTML = '';
+                
+                // Add coconut details
+                addReceiptRow(receiptItems, 'மொத்த தேங்காய்கள்', formData.totalCoconuts, '--', '--');
+                
+                if (formData.deduction > 0) {
+                    addReceiptRow(receiptItems, 'லாபக்காய்', formData.deduction, '--', '--');
+                }
+                
+                addReceiptRow(receiptItems, 'நிகர தேங்காய்கள்', formData.netCoconuts, 
+                             formData.coconutPrice, coconutAmount);
+                
+                if (formData.peeledCount > 0) {
+                    addReceiptRow(receiptItems, `தேங்காய் வெட்டிய கூலி (${formData.peeledCount} x ${formData.peelingRate})`, 
+                                 formData.peeledCount, formData.peelingRate, peelingAmount);
+                }
+                
+                if (formData.advance > 0) {
+                    addReceiptRow(receiptItems, 'முன்பணம்', '--', '--', -formData.advance);
+                }
+                
+                // Display totals
+                document.getElementById('receiptTotal').textContent = totalAmount.toFixed(2);
+                document.getElementById('receiptAdvance').textContent = formData.advance.toFixed(2);
+                
+                const netAmountElement = document.getElementById('receiptNetAmount');
+                netAmountElement.textContent = Math.abs(netAmount).toFixed(2);
+                netAmountElement.className = netAmount >= 0 ? 'positive' : 'negative';
+                
+                // Show receipt and print button
+                document.getElementById('receipt').style.display = 'block';
+                document.getElementById('printBill').style.display = 'inline-block';
+                
+                // Save record
+                const record = {
+                    id: Date.now(),
+                    ...formData,
+                    coconutAmount,
+                    peelingAmount,
+                    totalAmount,
+                    netAmount,
+                    timestamp: new Date().toISOString()
+                };
+                
+                app.records.push(record);
+                localStorage.setItem('coconutRecords', JSON.stringify(app.records));
+                
+                // Refresh records display
+                displayRecords();
+                
+                // Auto print if enabled
+                if (app.settings.autoPrint) {
+                    setTimeout(printBill, 1000);
+                }
+            }
+            
+            function addReceiptRow(table, description, quantity, rate, amount) {
+                const row = table.insertRow();
+                row.insertCell().textContent = description;
+                row.insertCell().textContent = quantity;
+                row.insertCell().textContent = rate;
+                row.insertCell().textContent = amount !== undefined ? (amount >= 0 ? amount.toFixed(2) : '-' + Math.abs(amount).toFixed(2)) : '--';
+            }
+            
+            function printBill() {
+                window.print();
+            }
+            
+            function displayRecords(recordsToDisplay = null) {
+                const records = recordsToDisplay || app.records;
+                const recordsList = document.getElementById('recordsList');
+                recordsList.innerHTML = '';
+                
+                // Sort by date (newest first)
+                const sortedRecords = [...records].sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                sortedRecords.forEach(record => {
+                    const row = recordsList.insertRow();
+                    
+                    // Date
+                    const dateCell = row.insertCell();
+                    dateCell.textContent = new Date(record.date).toLocaleDateString('ta-IN');
+                    
+                    // Name
+                    row.insertCell().textContent = record.name;
+                    
+                    // Village
+                    row.insertCell().textContent = record.village;
+                    
+                    // Coconuts
+                    row.insertCell().textContent = record.netCoconuts;
+                    
+                    // Amount
+                    const amountCell = row.insertCell();
+                    amountCell.textContent = '₹' + Math.abs(record.netAmount).toFixed(2);
+                    amountCell.className = record.netAmount >= 0 ? 'positive' : 'negative';
+                    
+                    // Actions
+                    const actionsCell = row.insertCell();
+                    actionsCell.className = 'no-print';
+                    
+                    // View button
+                    const viewBtn = document.createElement('button');
+                    viewBtn.textContent = 'காண்க';
+                    viewBtn.className = 'btn btn-info';
+                    viewBtn.onclick = () => viewRecord(record.id);
+                    
+                    // Delete button
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'நீக்கு';
+                    deleteBtn.className = 'btn btn-danger';
+                    deleteBtn.onclick = () => deleteRecord(record.id);
+                    
+                    actionsCell.appendChild(viewBtn);
+                    actionsCell.appendChild(deleteBtn);
+                });
+            }
+            
+            function viewRecord(id) {
+                const record = app.records.find(r => r.id === id);
+                if (!record) return;
+                
+                // Fill form with record data
+                document.getElementById('customerName').value = record.name;
+                document.getElementById('customerVillage').value = record.village;
+                document.getElementById('transactionDate').value = record.date;
+                document.getElementById('customerPhone').value = record.phone;
+                document.getElementById('totalCoconuts').value = record.totalCoconuts;
+                document.getElementById('deduction').value = record.deduction;
+                document.getElementById('peeledCount').value = record.peeledCount;
+                document.getElementById('peelingRate').value = record.peelingRate;
+                document.getElementById('coconutPrice').value = record.coconutPrice;
+                document.getElementById('advanceAmount').value = record.advance;
+                
+                // Set customer image
+                if (record.customerImage) {
+                    document.getElementById('customerImage').src = record.customerImage;
+                }
+                
+                // Calculate net
+                calculateNetCoconuts();
+                
+                // Switch to billing tab
+                document.querySelector('[data-tab="billing"]').click();
+            }
+            
+            function deleteRecord(id) {
+                if (confirm('இந்த பதிவை நிச்சயமாக நீக்க வேண்டுமா?')) {
+                    app.records = app.records.filter(record => record.id !== id);
+                    localStorage.setItem('coconutRecords', JSON.stringify(app.records));
+                    displayRecords();
+                }
+            }
+            
+            function searchRecords() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                if (!searchTerm) {
+                    displayRecords();
+                    return;
+                }
+                
+                const filteredRecords = app.records.filter(record => 
+                    record.name.toLowerCase().includes(searchTerm) || 
+                    record.village.toLowerCase().includes(searchTerm)
+                );
+                
+                displayRecords(filteredRecords);
+            }
+            
+            function clearSearch() {
+                document.getElementById('searchInput').value = '';
+                displayRecords();
+            }
+            
+            function exportRecords() {
+                const dataStr = JSON.stringify(app.records, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `tst-coconut-records-${new Date().toISOString().split('T')[0]}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            }
+            
+            function saveSettings() {
+                app.settings = {
+                    defaultCoconutPrice: parseFloat(document.getElementById('defaultCoconutPrice').value) || 20,
+                    defaultPeelingRate: parseFloat(document.getElementById('defaultPeelingRate').value) || 1,
+                    autoPrint: document.getElementById('autoPrint').checked
+                };
+                
+                localStorage.setItem('coconutSettings', JSON.stringify(app.settings));
+                
+                // Update default prices in billing form
+                document.getElementById('coconutPrice').value = app.settings.defaultCoconutPrice;
+                document.getElementById('peelingRate').value = app.settings.defaultPeelingRate;
+                
+                alert('அமைப்புகள் சேமிக்கப்பட்டன!');
+            }
+        });
+    </script>
+</body>
+</html>
